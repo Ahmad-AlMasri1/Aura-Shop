@@ -15,7 +15,7 @@ export default function useCart() {
     }
 
     const query = useQuery({
-        queryKey: ['cart', 'en'],
+        queryKey: ['cart'],
         queryFn: getItems,
         enabled: !!token,
         staleTime: 1000 * 60 * 5,

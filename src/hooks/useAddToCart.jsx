@@ -15,8 +15,10 @@ export default function useAddToCart() {
                 ProductId: values.productId,
                 Count: values.count});
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
+
             queryClient.invalidateQueries({ queryKey: ['cart'] });
+
             toast.success('Product Added Succesfully!', {
             position: "top-right",
             autoClose: 2000,
