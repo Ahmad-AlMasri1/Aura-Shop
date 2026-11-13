@@ -21,7 +21,6 @@ export default function Products({sortBy , order , min , max , byCategory}) {
 
     if(isError)return <div>{error.message}</div>
 
-    console.log(data);
   return (
     <Grid container spacing={2}>
         {data?.map((product)=>(

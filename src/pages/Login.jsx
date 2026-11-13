@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 // Hooks
 import { useForm } from 'react-hook-form'
-
+import useAuthStore from '../store/useAuthStore'
 // Validation
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from '../validations/authSchema'
@@ -17,7 +17,9 @@ export default function Login() {
   
     const [serverError, setServerError] = React.useState(null)
     const [success,setSuccess] = React.useState(null)
-  
+
+    const login = useAuthStore((state) => state.login);
+    
     const { register, handleSubmit, formState: {errors, isSubmitting}} = useForm(
       {
         resolver:yupResolver(loginSchema),mode:'onBlur'
@@ -29,6 +31,7 @@ export default function Login() {
         const response = await axios.post('https://knowledgeshop.runasp.net/api/auth/Account/Login', data)
         setSuccess('Login successful!')
         setServerError(null)
+        login(response.data.token);
         navigate('/home')
   
       } catch (error) {
