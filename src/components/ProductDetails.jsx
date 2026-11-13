@@ -1,11 +1,20 @@
 import React from 'react'
 
-import { useParams } from 'react-router-dom';
-import { useState } from 'react';
-import useProductDetails from '../hooks/useProductDetails.jsx';
+import { Container , Box , Typography, Button} from '@mui/material';
 
-import { Container , Box , Typography} from '@mui/material';
+import { useParams } from 'react-router-dom';
+import useProductDetails from '../hooks/useProductDetails.jsx';
+import useAddToCart from '../hooks/useAddToCart.jsx';
+import useAuthStore from '../store/useAuthStore.jsx';
+import { useNavigate } from 'react-router-dom';
+
 export default function ProductDetails() {
+    
+    const token = useAuthStore((state) => state.token);
+
+    const navigate = useNavigate();
+
+    const {mutate : addToCart} = useAddToCart();
 
     const {id} = useParams();
 
@@ -18,12 +27,15 @@ export default function ProductDetails() {
         return <div>Error: {error.message}</div>
     }
     
+    
     return (
         <Container>
             <Box>
                 <Typography> {data?.name} </Typography>
                 <Typography> {data?.description} </Typography>
             </Box>
+            <Button  onClick={() => {token ? addToCart({ productId: data?.id, count: 1 }) : navigate('/login')}}>Add to Cart</Button>
+          
         </Container>
   )
 }
